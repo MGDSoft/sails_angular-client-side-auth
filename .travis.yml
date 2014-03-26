@@ -1,10 +1,7 @@
 language: node_js
 
 node_js:
-  - "0.10.x"
-
-before_script:
-    - npm install
+  - "v0.10.25"
 
 script:
-    - ./run_tests.sh
+    - sh ./run_tests.sh
