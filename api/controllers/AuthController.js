@@ -9,15 +9,16 @@ var passport =  require('passport');
 
 var loginOAuth = function (req,res,user)
 {
-    console.log(user);
 
     req.logIn(user, function (err) {
 
         if (err) {
-            console.log(err);
+            sails.log.error(err);
             res.redirect('/login');
             return;
         }
+
+        sails.log.info("Logged as " + user.username );
 
         res.redirect('/login');
     });
@@ -31,20 +32,21 @@ module.exports = {
     },
 
     login: function(req, res, next) {
+
         passport.authenticate('local', function(err, user) {
 
             if(err)
-                return next(err);
+                return res.serverError(err);
 
             if(!user)
-                return res.send(400);
+                return res.badRequest('user not found');
 
             req.logIn(user, function(err) {
 
-                console.log("Logged as " + user.username );
+                sails.log.info("Logged as " + user.username );
 
                 if(err)
-                    return next(err);
+                    return res.badRequest(err);
 
                 if(req.body.rememberme)
                     req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;

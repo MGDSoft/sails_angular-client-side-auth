@@ -21,8 +21,6 @@ var passport = require('passport')
 var verifyOAuthHandler = function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
 
-        console.log(profile);
-
         User.findOne({
                 provider: profile.provider,
                 uid     : profile.id

@@ -32,7 +32,8 @@ angular.module('angular-client-side-auth')
                 $location.path('/');
             },
             function(err) {
-                $rootScope.error = "Failed to login";
+                console.log(err);
+                $rootScope.error = err;
             });
     };
 

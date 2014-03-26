@@ -3,7 +3,7 @@
  *
  * Usage:
  * return res.forbidden('Access denied.');
- * 
+ *
  * @param {String|Object|Array} message
  *      optional message to inject into view locals or JSON response
  *

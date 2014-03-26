@@ -1,3 +1,7 @@
+var constPub  = require('../assets/js/app/constantsPublic')
+    ;
+
+
 /**
  * Routes
  *
@@ -29,7 +33,7 @@ module.exports.routes = {
 //    '/': {
 //        view: 'homepage'
 //    }
-    '/*' : function(req, res, next) {
+    'get /*' : function(req, res, next) {
 
 //        var homePageView = ['/','/login','/register','/admin','private','/404'];
 //
@@ -47,6 +51,31 @@ module.exports.routes = {
         }
 
         return res.view('homepage');
+    },
+
+    'post /v1/user/create': {
+        controller: 'user',
+        action: 'create'
+    },
+
+    'get /v1/user': {
+        controller: 'user',
+        action: 'find'
+    },
+
+    'post /v1/auth/login': {
+        controller: 'auth',
+        action: 'login'
+    },
+
+    'post /v1/auth/logout': {
+        controller: 'auth',
+        action: 'logout'
+    },
+
+    'post /v1/auth/facebook': {
+        controller: 'auth',
+        action: 'facebook'
     }
 
     // Custom routes here...

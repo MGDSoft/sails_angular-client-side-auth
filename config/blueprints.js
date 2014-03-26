@@ -108,7 +108,7 @@ module.exports.blueprints = {
    *
    * `shortcuts` are enabled by default, but SHOULD BE DISABLED IN PRODUCTION!!!!!
    */
-  shortcuts: true,
+  shortcuts: false,
 
 
 
