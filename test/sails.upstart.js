@@ -18,7 +18,10 @@ before(function(done) {
         models: {
             connection: 'test'
         },
-        port: 4000
+        port: 4000,
+        "hooks": {
+            "grunt": false
+        }
 
     }, function(err, sails) {
 
