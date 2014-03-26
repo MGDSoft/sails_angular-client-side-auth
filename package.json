@@ -50,7 +50,9 @@
     "chai": "~1.9.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepublish": "npm prune",
+    "pretest": "node test/.installDependencies"
   },
   "main": "app.js",
   "repository": {
