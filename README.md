@@ -19,8 +19,15 @@ $ npm install && bower install && node app
 
 $ configure all apps (Facebook, Twitter, Google, Github, Linkedin)
 
-Be careful, I`m not a expert in node.
+### Be careful, I`m not a expert in node.
 
-This method to authenticate with angularjs (with cookie) its ugly, and if you want use your api for others programs you will need to make changes to the server.
+# pros
 
-# All pull request are welcome !!
+- Easy use
+
+# cons
+
+- Cookie to get user state
+- Need Server change in restful support
+
+### All pull request are welcome !!
