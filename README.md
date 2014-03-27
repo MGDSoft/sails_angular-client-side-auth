@@ -1,5 +1,5 @@
-angular-client-side-auth in Sails framework INCOMPLETE
-======================================================
+angular-client-side-auth in Sails framework
+===========================================
 
 [![Build Status](https://secure.travis-ci.org/MGDSoft/sails_angular-client-side-auth.png)](http://travis-ci.org/MGDSoft/lolreferrals)
 
@@ -10,9 +10,10 @@ This project is a port from https://github.com/fnakstad/angular-client-side-auth
 
 ```bash
 $ git clone https://github.com/MGDSoft/sails_angular-client-side-auth.git
-$ rem create config/local and configure your db in models
+# create config/local and configure your db in models
 $ cd sails_angular-client-side-auth
 $ npm install && bower install && node app
+```
 
 # Optional
 
