@@ -73,10 +73,16 @@ module.exports.routes = {
         action: 'logout'
     },
 
-    'post /v1/auth/facebook': {
+    'get /v1/auth/:provider': {
         controller: 'auth',
-        action: 'facebook'
+        action: 'oauth'
+    },
+
+    'get /v1/auth/:provider/callback': {
+        controller: 'auth',
+        action: 'oauth'
     }
+
 
     // Custom routes here...
 

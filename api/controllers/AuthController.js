@@ -7,23 +7,6 @@ var passport =  require('passport');
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var loginOAuth = function (req,res,user)
-{
-
-    req.logIn(user, function (err) {
-
-        if (err) {
-            sails.log.error(err);
-            res.redirect('/login');
-            return;
-        }
-
-        sails.log.info("Logged as " + user.username );
-
-        res.redirect('/login');
-    });
-};
-
 module.exports = {
 
     logout: function(req, res) {
@@ -56,53 +39,102 @@ module.exports = {
         })(req, res, next);
     },
 
-    facebook: function (req, res, next) {
+    oauth: function (req, res, next) {
 
-        passport.authenticate('facebook', { failureRedirect: '/login'},
-            function (err, user) {
+        var provider=req.param('provider')
+            ,providers=['facebook','twitter','google','github','linkedin']
+            ,providerId=providers.indexOf(provider)
+        ;
 
-                loginOAuth(req,res,user);
-            }
-        )(req, res, next);
-    },
+        if (!provider || providerId === -1)
+            return res.notFound();
 
-    twitter: function (req, res) {
-        passport.authenticate('twitter', { failureRedirect: '/login' },
-            function (err, user) {
+        provider = providers[providerId];
 
-                loginOAuth(req,res,user);
-            }
-        )(req, res);
-    },
+        // eval cant be dangerous because the provider value is obtained from providers array
+        /* jshint ignore:start */
+        if (eval("typeof sails.config."+provider.toUpperCase() + "_APP_ID == 'undefined'")
+                || eval("typeof sails.config."+provider.toUpperCase() + "_APP_SECRET == 'undefined'")
+            ){
 
-    google: function (req, res) {
-        passport.authenticate('google', {
-                failureRedirect: '/login',
-                scope:['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
-            },
-            function (err, user) {
+            return res.serverError("Details of "+provider+" application not has been created in the conf/local file");
+        }
 
-                loginOAuth(req,res,user);
-            }
-        )(req, res);
-    },
 
-    github: function (req, res) {
-        passport.authenticate('github', { failureRedirect: '/login' },
-            function (err, user) {
+        return eval(provider + "(req, res, next)");
+        /* jshint ignore:end */
 
-                loginOAuth(req,res,user);
-            }
-        )(req, res);
-    },
 
-    linkedin: function (req, res) {
-        passport.authenticate('linkedin', { failureRedirect: '/login' },
-            function (err, user) {
+        function facebook (req, res, next) {
 
-                loginOAuth(req,res,user);
-            }
-        )(req, res);
+            passport.authenticate('facebook', { failureRedirect: '/login'},
+                function (err, user) {
+
+                    loginOAuth(req,res,user);
+                }
+            )(req, res, next);
+        }
+
+        function twitter (req, res) {
+
+            passport.authenticate('twitter', { failureRedirect: '/login' },
+                function (err, user) {
+
+                    loginOAuth(req,res,user);
+                }
+            )(req, res);
+        }
+
+        function google(req, res) {
+
+            passport.authenticate('google', {
+                    failureRedirect: '/login',
+                    scope:['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
+                },
+                function (err, user) {
+
+                    loginOAuth(req,res,user);
+                }
+            )(req, res);
+        }
+
+        function github(req, res) {
+
+            passport.authenticate('github', { failureRedirect: '/login' },
+                function (err, user) {
+
+                    loginOAuth(req,res,user);
+                }
+            )(req, res);
+        }
+
+        function linkedin(req, res) {
+
+            passport.authenticate('linkedin', { failureRedirect: '/login' },
+                function (err, user) {
+
+                    loginOAuth(req,res,user);
+                }
+            )(req, res);
+        }
+
+        function loginOAuth(req,res,user){
+
+            req.logIn(user, function (err) {
+
+                if (err) {
+                    sails.log.error(err);
+                    res.redirect('/login');
+                    return;
+                }
+
+                sails.log.info("Logged as " + user.username );
+
+                return res.redirect('/login');
+            });
+        }
     }
+
+
 
 };
