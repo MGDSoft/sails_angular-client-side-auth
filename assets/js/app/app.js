@@ -52,19 +52,30 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ngRoute'])
 
     $locationProvider.html5Mode(true);
 
-    $httpProvider.interceptors.push(function($q, $location) {
+    $httpProvider.interceptors.push(['$rootScope','$q', '$location', function($rootScope, $q, $location) {
         return {
             'responseError': function(response) {
+
                 if(response.status === 401 || response.status === 403) {
                     $location.path('/login');
-                    return $q.reject(response);
+                } else if(response.status === 500){
+                    $rootScope.error = "Internal server error";
+                } else {
+                    if (typeof response.data.errors != 'undefined')
+                    {
+                        var result="";
+                        for(var error in response.data.errors) {
+                            result+=error;
+                        }
+                        $rootScope.error = result;
+                    }
+
                 }
-                else {
-                    return $q.reject(response);
-                }
+
+                return $q.reject(response);
             }
         }
-    });
+    }]);
 
 }])
 

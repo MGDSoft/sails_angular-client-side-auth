@@ -32,8 +32,7 @@ angular.module('angular-client-side-auth')
                 $location.path('/');
             },
             function(err) {
-                console.log(err);
-                $rootScope.error = err;
+                $rootScope.error = 'Error in login';
             });
     };
 
@@ -70,7 +69,7 @@ angular.module('angular-client-side-auth')
                 $location.path('/');
             },
             function(err) {
-                $rootScope.error = err;
+                $rootScope.error = 'Error in register form';
             });
     };
 }]);
